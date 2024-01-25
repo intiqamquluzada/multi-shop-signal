@@ -1,17 +1,32 @@
 from django.contrib import admin
 from my_app.models import *
+from modeltranslation.admin import TranslationAdmin, TranslationTabularInline
+
 
 class ProductImageAdmin(admin.StackedInline):
     model = ProductImage
     extra = 1
 
-class ProductAdmin(admin.ModelAdmin):
+
+@admin.register(Product)
+class ProductAdmin(TranslationAdmin):
     inlines = [ProductImageAdmin]
+
+    class Media:
+        js = (
+
+            'modeltranslation/js/tabbed_translation_fields.js',
+            'modeltranslation/js/force_jquery.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+        )
+
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
 
 admin.site.register(Category)
 admin.site.register(Color)
 admin.site.register(Size)
-admin.site.register(Product,ProductAdmin)
 admin.site.register(Contact)
 admin.site.register(Checkout)
 admin.site.register(Comment)

@@ -1,4 +1,8 @@
 {% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,19 +37,19 @@
         <div class="row bg-secondary py-1 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="d-inline-flex align-items-center h-100">
-                    <a class="text-body mr-3" href="">About</a>
-                    <a class="text-body mr-3" href="">Contact</a>
-                    <a class="text-body mr-3" href="">Help</a>
-                    <a class="text-body mr-3" href="">FAQs</a>
+                    <a class="text-body mr-3" href="">{% trans 'About' %}</a>
+                    <a class="text-body mr-3" href="">{% trans 'Contact' %}</a>
+                    <a class="text-body mr-3" href="">{% trans 'Help' %}</a>
+                    <a class="text-body mr-3" href="">{% trans 'FAQs' %}</a>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{% trans 'My Account' %}</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+                            <button class="dropdown-item" type="button">{% trans 'Sign in' %}</button>
+                            <button class="dropdown-item" type="button">{% trans 'Sign up '%}</button>
                         </div>
                     </div>
                     <div class="btn-group mx-2">
@@ -57,11 +61,14 @@
                         </div>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{LANGUAGE_CODE|upper}}</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">FR</button>
-                            <button class="dropdown-item" type="button">AR</button>
-                            <button class="dropdown-item" type="button">RU</button>
+                            {% for i in LANGUAGES %}
+                            {% if LANGUAGE_CODE != i.0 %}
+                            <a href="{% url 'set_lang' i.0 %}">
+                            <button class="dropdown-item" type="button">{{i.0|upper}}</button></a>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
